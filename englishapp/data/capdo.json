@@ -1,0 +1,15 @@
+[
+  {
+    "capDo_id": 1,
+    "tencapdo": "Beginner"
+  },
+  {
+    "capDo_id": 2,
+    "tencapdo": "Intermediate"
+  },
+  {
+    "capDo_id": 3,
+    "tencapdo": "Advanced"
+  }
+
+]

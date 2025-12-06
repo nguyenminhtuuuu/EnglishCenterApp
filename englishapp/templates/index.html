@@ -1,0 +1,21 @@
+{%extends 'layout/base.html'%}
+
+{%block content%}
+
+<div class="row">
+    {%for k in khoahoc%}
+    <div class="col-md-3 col-12" style="padding: 0.7rem">
+        <div class="card">
+            <img class="card-img-top" src="{{k.image}}" alt="{{k.tenKH}}">
+            <div class="card-body">
+                <h4 class="card-title">{{k.tenKH}}</h4>
+                <p class="card-text">{{k.hocPhi}}$</p>
+                <a href="/khoahoc/{{k.maKH}}" class="btn btn-primary">Xem chi tiết</a>
+                <a href="#" class="btn btn-danger">Đăng ký</a>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+
+{%endblock%}

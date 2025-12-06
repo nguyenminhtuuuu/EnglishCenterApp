@@ -1,0 +1,17 @@
+{%extends 'layout/base.html'%}
+
+{%block title%}Chi tiết khóa học{%endblock%}
+{%block content%}
+
+<div class="row mt-3">
+    <div class="col-md-5 col-12">
+        <img src="{{kh.image}}" class="img-fluid" alt="Responsive image">
+    </div>
+    <div class="col-md-7 col-12">
+        <h3 class="text-info">{{kh.tenKH}}</h3>
+        <h4 class="text-danger">{{kh.hocPhi}}$</h4>
+    </div>
+</div>
+
+
+{%endblock%}
