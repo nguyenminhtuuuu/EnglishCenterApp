@@ -1,0 +1,206 @@
+[
+  {
+    "id": 1,
+    "name": "Chào hỏi, giới thiệu",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 2 & Thứ 4 (18h–19h30)",
+    "ngayBD": "05/01/2026",
+    "ngayKT": "26/01/2026",
+    "maKH": 1
+  },
+
+  {
+    "id": 2,
+    "name": "Mua sắm, ăn uống",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 3 & Thứ 5 (18h–19h30)",
+    "ngayBD": "02/02/2026",
+    "ngayKT": "23/02/2026",
+    "maKH": 1
+  },
+
+
+  {
+    "id": 3,
+    "name": "Thì hiện tại",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 7 (9h–11h)",
+    "ngayBD": "10/01/2026",
+    "ngayKT": "31/01/2026",
+    "maKH": 2
+  },
+
+  {
+    "id": 4,
+    "name": "Tổng hợp",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 7 (9h–11h)",
+    "ngayBD": "04/04/2026",
+    "ngayKT": "25/04/2026",
+    "maKH": 2
+  },
+
+
+  {
+    "id": 5,
+    "name": "Giao tiếp tại sân bay",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 3 & Thứ 5 (18h–19h30)",
+    "ngayBD": "02/02/2026",
+    "ngayKT": "23/02/2026",
+    "maKH": 3
+  },
+  {
+    "id": 6,
+    "name": "Hỏi đường, gọi taxi",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 2 & Thứ 4 (18h–19h30)",
+    "ngayBD": "02/03/2026",
+    "ngayKT": "23/03/2026",
+    "maKH": 3
+  },
+
+
+  {
+    "id": 7,
+    "name": "Email chuyên nghiệp",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 2 & Thứ 4 (19h–20h30)",
+    "ngayBD": "05/01/2026",
+    "ngayKT": "26/01/2026",
+    "maKH": 4
+  },
+  {
+    "id": 8,
+    "name": "Đàm phán cơ bản",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 3 & Thứ 5 (19h–20h30)",
+    "ngayBD": "30/03/2026",
+    "ngayKT": "20/04/2026",
+    "maKH": 4
+  },
+
+
+  {
+    "id": 9,
+    "name": "Nghe hội thoại dài",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 7 (14h–16h)",
+    "ngayBD": "10/01/2026",
+    "ngayKT": "31/01/2026",
+    "maKH": 5
+  },
+  {
+    "id": 10,
+    "name": "Phản xạ nhanh",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 7 (14h–16h)",
+    "ngayBD": "04/04/2026",
+    "ngayKT": "25/04/2026",
+    "maKH": 5
+  },
+
+
+  {
+    "id": 11,
+    "name": "Phát triển ý và lập luận",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 2 & Thứ 4 (18h–19h30)",
+    "ngayBD": "02/03/2026",
+    "ngayKT": "23/03/2026",
+    "maKH": 6
+  },
+
+
+  {
+    "id": 12,
+    "name": "Chỉnh sửa và nâng cao",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 3 & Thứ 5 (18h–19h30)",
+    "ngayBD": "30/03/2026",
+    "ngayKT": "20/04/2026",
+    "maKH": 6
+  },
+
+
+  {
+    "id": 13,
+    "name": "Phân tích tài liệu",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 2 & Thứ 4 (20h–21h30)",
+    "ngayBD": "02/03/2026",
+    "ngayKT": "23/03/2026",
+    "maKH": 7
+  },
+
+
+  {
+    "id": 14,
+    "name": "Dự án luận văn",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 3 & Thứ 5 (20h–21h30)",
+    "ngayBD": "30/03/2026",
+    "ngayKT": "20/04/2026",
+    "maKH": 7
+  },
+
+
+  {
+    "id": 15,
+    "name": "Đàm phán hợp đồng",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 7 (9h–11h)",
+    "ngayBD": "10/01/2026",
+    "ngayKT": "31/01/2026",
+    "maKH": 8
+  },
+  {
+    "id": 16,
+    "name": "Viết báo cáo kinh doanh",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 7 (9h–11h)",
+    "ngayBD": "07/02/2026",
+    "ngayKT": "28/02/2026",
+    "maKH": 8
+  },
+
+  {
+    "id": 17,
+    "name": "Tiếng Anh ngành IT",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 3 & Thứ 5 (19h–20h30)",
+    "ngayBD": "02/02/2026",
+    "ngayKT": "23/02/2026",
+    "maKH": 9
+  },
+  {
+    "id": 18,
+    "name": "Tiếng Anh ngành y tế",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 2 & Thứ 4 (19h–20h30)",
+    "ngayBD": "02/03/2026",
+    "ngayKT": "23/03/2026",
+    "maKH": 9
+  },
+
+
+  {
+    "id": 19,
+    "name": "Cấu trúc bài thuyết trình",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 7 (9h–11h)",
+    "ngayBD": "10/01/2026",
+    "ngayKT": "31/01/2026",
+    "maKH": 10
+  },
+  {
+    "id": 20,
+    "name": "Kỹ năng nói trước đám đông",
+    "soHVToiDa": 25,
+    "lichHoc": "Thứ 7 (9h–11h)",
+    "ngayBD": "07/02/2026",
+    "ngayKT": "28/02/2026",
+    "maKH": 10
+  }
+
+]

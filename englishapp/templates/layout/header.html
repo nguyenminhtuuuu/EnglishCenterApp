@@ -11,11 +11,14 @@
                 </li>
                 {%for c in capdo%}
                 <li class="nav-item">
-                    <a class="nav-link" href="/?capDo_id={{c.capDo_id}}">{{c.tencapdo}}</a>
+                    <a class="nav-link" href="/?capDo_id={{c.id}}">{{c.name}}</a>
                 </li>
                 {%endfor%}
+                <li class="nav-item">
+                    <a class="nav-link active" href="/login">&#128220Đăng nhập</a>
+                </li>
             </ul>
-            <form class="d-flex">
+            <form class="d-flex" action="/" method="get">
                 <input class="form-control me-2" type="text" placeholder="Tìm khóa học..." name="q">
                 <button class="btn btn-primary" type="submit">Tìm</button>
             </form>

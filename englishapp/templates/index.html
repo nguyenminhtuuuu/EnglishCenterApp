@@ -2,20 +2,33 @@
 
 {%block content%}
 
+{% if pages > 1 %}
+
+<ul class="pagination mt-3">
+    {%for i in range(1, pages + 1)%}
+    <li class="page-item"><a class="page-link" href="/?page={{i}}">{{i}}</a></li>
+    {%endfor%}
+</ul>
+
+{% endif %}
+
 <div class="row">
     {%for k in khoahoc%}
     <div class="col-md-3 col-12" style="padding: 0.7rem">
         <div class="card">
-            <img class="card-img-top" src="{{k.image}}" alt="{{k.tenKH}}">
+            <img class="card-img-top" src="{{k.image}}" alt="{{k.name}}">
             <div class="card-body">
-                <h4 class="card-title">{{k.tenKH}}</h4>
+                <h4 class="card-title">{{k.name}}</h4>
                 <p class="card-text">{{k.hocPhi}}$</p>
-                <a href="/khoahoc/{{k.maKH}}" class="btn btn-primary">Xem chi tiết</a>
-                <a href="#" class="btn btn-danger">Đăng ký</a>
+                <a href="/khoahoc/{{k.id}}" class="btn btn-primary">Xem chi tiết</a>
+                <!--                <a href="#" class="btn btn-danger">Đăng ký</a>-->
             </div>
         </div>
     </div>
     {%endfor%}
+    {% if message %}
+    <p style="color:red; font-weight:bold;">{{ message }}</p>
+    {% endif %}
 </div>
 
 {%endblock%}

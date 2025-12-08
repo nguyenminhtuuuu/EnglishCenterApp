@@ -1,71 +1,71 @@
 [
   {
-    "maKH": 1,
-    "tenKH": "Tiếng anh giao tiếp",
+    "id": 1,
+    "name": "Tiếng anh giao tiếp",
     "capDo_id": 1,
     "hocPhi": 500,
     "image": "https://res.cloudinary.com/deeqcwnpm/image/upload/v1765041156/daily_conversational_english_p81vyi.png"
   },
   {
-    "maKH": 2,
-    "tenKH": "Ngữ pháp nền tảng",
+    "id": 2,
+    "name": "Ngữ pháp nền tảng",
     "capDo_id": 1,
     "hocPhi": 700,
     "image": "https://res.cloudinary.com/deeqcwnpm/image/upload/v1765041160/foundational_english_grammar_v119ia.png"
   },
   {
-    "maKH": 3,
-    "tenKH": "Giao tiếp du lịch",
+    "id": 3,
+    "name": "Giao tiếp du lịch",
     "capDo_id": 1,
     "hocPhi": 750,
     "image": "https://res.cloudinary.com/deeqcwnpm/image/upload/v1765041157/travel_communication_english_qvr02p.png"
   },
   {
-    "maKH": 4,
-    "tenKH": "Tiếng anh công sở",
+    "id": 4,
+    "name": "Tiếng anh công sở",
     "capDo_id": 2,
     "hocPhi": 800,
     "image": "https://res.cloudinary.com/deeqcwnpm/image/upload/v1765041157/workplace_english_cl2xcy.png"
   },
   {
-    "maKH": 5,
-    "tenKH": "Kỹ năng nghe – nói",
+    "id": 5,
+    "name": "Kỹ năng nghe – nói",
     "capDo_id": 2,
     "hocPhi": 800,
     "image": "https://res.cloudinary.com/deeqcwnpm/image/upload/v1765041156/advanced_speaking_listening_gubt8v.png"
   },
   {
-    "maKH": 6,
-    "tenKH": "Viết luận tiếng anh",
+    "id": 6,
+    "name": "Viết luận tiếng anh",
     "capDo_id": 2,
     "hocPhi": 900,
     "image": "https://res.cloudinary.com/deeqcwnpm/image/upload/v1765041156/english_essay_writing_db1lrc.png"
   },
   {
-    "maKH": 7,
-    "tenKH": "Tiếng anh học thuật",
+    "id": 7,
+    "name": "Tiếng anh học thuật",
     "capDo_id": 3,
     "hocPhi": 1000,
     "image": "https://res.cloudinary.com/deeqcwnpm/image/upload/v1765041156/academic_english_m13c7e.png"
   },
 
   {
-    "maKH": 8,
-    "tenKH": "Tiếng anh thương mại",
+    "id": 8,
+    "name": "Tiếng anh thương mại",
     "capDo_id": 3,
     "hocPhi": 1200,
     "image": "https://res.cloudinary.com/deeqcwnpm/image/upload/v1765041157/international_business_english_wzv0me.png"
   },
   {
-    "maKH": 9,
-    "tenKH": "Tiếng anh chuyên ngành",
+    "id": 9,
+    "name": "Tiếng anh chuyên ngành",
     "capDo_id": 3,
     "hocPhi": 1500,
     "image": "https://res.cloudinary.com/deeqcwnpm/image/upload/v1765041156/english_for_specific_purpose_fkpft1.png"
   },
   {
-    "maKH": 10,
-    "tenKH": "Tiếng anh thuyết trình",
+    "id": 10,
+    "name": "Tiếng anh thuyết trình",
     "capDo_id": 3,
     "hocPhi": 1700,
     "image": "https://res.cloudinary.com/deeqcwnpm/image/upload/v1765041156/advanced_english_presentation_skills_rqfije.png"
