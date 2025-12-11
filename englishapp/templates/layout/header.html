@@ -14,9 +14,31 @@
                     <a class="nav-link" href="/?capDo_id={{c.id}}">{{c.name}}</a>
                 </li>
                 {%endfor%}
+
+
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link active" href="/login">
+                        <img src="{{current_user.avatar}}" width="20">
+                        Chào {{current_user.name}}
+                    </a>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="/logout">&#128220Đăng xuất</a>
+                </li>
+                </li>
+
+
+                {% else %}
                 <li class="nav-item">
                     <a class="nav-link active" href="/login">&#128220Đăng nhập</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="/register">&#128105;Đăng ký</a>
+                </li>
+
+                {% endif %}
             </ul>
             <form class="d-flex" action="/" method="get">
                 <input class="form-control me-2" type="text" placeholder="Tìm khóa học..." name="q">

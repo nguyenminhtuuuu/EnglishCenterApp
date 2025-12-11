@@ -1,0 +1,80 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+<h3 class="text-info text-center mt-3">CHÀO MỪNG ĐẾN VỚI TRANG QUẢN TRỊ</h3>
+
+{%if current_user.is_authenticated%}
+Chào {{current_user.name}}!
+
+<!--<div class="row">-->
+<!--    <div class="col-md-5 col-12">-->
+<!--    </div>-->
+<!--    <div class="col-md-7 col-12">-->
+<!--        <div>-->
+<!--            <canvas id="myChart"></canvas>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+
+<!--    <script>-->
+<!--        const ctx = document.getElementById('myChart');-->
+
+<!--        let data = [];-->
+<!--        let labels = [];-->
+
+<!--        {%for c in cate_stats%}-->
+<!--            labels.push('{{c[1]}}')-->
+<!--            data.push({{c[2]}})-->
+<!--        {%endfor%}-->
+
+<!--        new Chart(ctx, {-->
+<!--          type: 'pie',-->
+<!--          data: {-->
+<!--            labels: labels,-->
+<!--            datasets: [{-->
+<!--              label: '# Sản phẩm',-->
+<!--              data: data,-->
+<!--              borderWidth: 1-->
+<!--            }]-->
+<!--          },-->
+<!--          options: {-->
+<!--            scales: {-->
+<!--              y: {-->
+<!--                beginAtZero: true-->
+<!--              }-->
+<!--            }-->
+<!--          }-->
+<!--        });-->
+<!--    </script>-->
+
+<!--</div>-->
+
+{%else%}
+
+
+{% if err_msg%}
+<div class="alert alert-danger">{{err_msg}}</div>
+
+{% endif %}
+
+<form method="post" action="/admin-login">
+    <div class="form-group mb-3 mt-3">
+        <label for="username">Tài khoản</label>
+        <input type="text" class="form-control" id="username" placeholder="Nhập tài khoản" name="username">
+
+    </div>
+
+    <div class="form-group mt-3 mb-3">
+        <label for="password">Mật khẩu</label>
+        <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu" name="password">
+
+    </div>
+
+    <div class="form-group mt-3 mb-3">
+        <button class="btn btn-primary" type="submit">ĐĂNG NHẬP</button>
+    </div>
+</form>
+{%endif%}
+
+{% endblock %}

@@ -1,7 +1,7 @@
 import json
-
-from englishapp import app
-from models import Capdo, Khoahoc, Lophoc
+import hashlib
+from englishapp import app, db
+from models import Capdo, Khoahoc, Lophoc, User
 
 def load_capdo():
     # with open("data/capdo.json", encoding="utf-8") as f:
@@ -23,6 +23,9 @@ def load_khoahoc(q=None, id=None,capDo_id=None, page=None):
     #     return khoahoc
 
 
+
+
+
     query = Khoahoc.query
 
     if q:
@@ -41,6 +44,16 @@ def load_khoahoc(q=None, id=None,capDo_id=None, page=None):
         query = query.slice(start, end)
 
     return query.all()
+
+
+
+
+def add_user(name,username, password, avatar):
+    password = hashlib.md5(password.strip().encode("utf-8")).hexdigest()
+    u = User(name=name, username=username.strip(), password=password, avatar=avatar)
+    db.session.add(u)
+    db.session.commit()
+
 
 
 def get_khoahoc_by_maKH(id):
@@ -67,10 +80,18 @@ def get_lophoc_by_maKH(id):
     return result
 
 
+def auth_user(username, password):
+    password= str(hashlib.md5(password.encode('utf-8')).hexdigest())
+    return User.query.filter(User.username.__eq__(username)and User.password.__eq__(password)).first()
+
+
+def get_user_by_id(id):
+    return User.query.get(id)
 
 def count_khoahoc():
     return Khoahoc.query.count()
 
 if __name__ == '__main__':
-    print(get_lophoc_by_maKH(2))
+    with app.app_context():
+        print(auth_user("user","123"))
 

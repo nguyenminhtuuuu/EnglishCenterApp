@@ -1,0 +1,45 @@
+{%extends 'layout/base.html'%}
+{%block title%}Trang đăng ký{%endblock%}
+{%block content%}
+<h3 class="text-info text-center mt-3">ĐĂNG KÝ</h3>
+
+{% if err_msg%}
+
+
+<div class="alert alert-danger">{{err_msg}}</div>
+
+{%endif%}
+
+<form method="post" action = '/register' enctype="multipart/form-data">
+
+    <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="name" placeholder="Nhập họ tên" name="name">
+        <label for="name">Nhập họ tên</label>
+    </div>
+
+    <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="username" placeholder="Nhập tài khoản" name="username" required>
+        <label for="username">Nhập tên đăng ký</label>
+    </div>
+
+    <div class="form-floating mt-3 mb-3">
+        <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu" name="password"
+               pattern=".{8,}" required>
+        <label for="password">Nhập mật khẩu</label>
+    </div>
+
+    <div class="form-floating mt-3 mb-3">
+        <input type="password" class="form-control" id="confirm" placeholder="Nhập lại mật khẩu" name="confirm" required>
+        <label for="confirm">Nhập lại mật khẩu</label>
+    </div>
+
+    <div class="form-floating mt-3 mb-3">
+        <input type="file" class="form-control" id="avatar" placeholder="Ảnh đại diện" name="avatar">
+        <label for="avatar">Ảnh đại diện</label>
+    </div>
+
+    <div class="form-floating mt-3 mb-3">
+        <button class="btn btn-primary" type="submit">ĐĂNG KÝ</button>
+    </div>
+</form>
+{%endblock%}
