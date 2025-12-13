@@ -1,5 +1,8 @@
 import json
 import hashlib
+
+from sqlalchemy import func
+
 from englishapp import app, db
 from models import Capdo, Khoahoc, Lophoc, User
 
@@ -91,7 +94,15 @@ def get_user_by_id(id):
 def count_khoahoc():
     return Khoahoc.query.count()
 
+
+def count_khoahoc_by_capdo():
+    query = db.session.query(Capdo.id, Capdo.name, func.count(Khoahoc.id)).join(Khoahoc, Khoahoc.capDo_id.__eq__(Capdo.id), isouter=True).group_by(Capdo.id)
+
+    print(query)
+
+    return query.all()
+
 if __name__ == '__main__':
     with app.app_context():
-        print(auth_user("user","123"))
+        print(count_khoahoc_by_capdo())
 

@@ -6,6 +6,8 @@ from flask_login import login_user, current_user, logout_user
 import cloudinary.uploader
 
 
+
+
 @app.route('/')
 def index():
     q = request.args.get('q')
@@ -114,6 +116,7 @@ def login_admin_process():
     if user:
         login_user(user)
         return redirect("/admin")
+
     else:
         err_msg = "Tài khoản hoặc mật khẩu không đúng!"
 

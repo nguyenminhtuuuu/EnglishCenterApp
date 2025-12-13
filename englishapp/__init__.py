@@ -18,3 +18,5 @@ cloudinary.config(cloud_name='deeqcwnpm',
                   api_secret='iOM3oFrZpEwBIrnkHdaPfmT8njY',)
 
 login = LoginManager(app)
+
+

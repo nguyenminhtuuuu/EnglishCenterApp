@@ -51,35 +51,35 @@ class Lophoc(Base):
     maKH = Column(Integer, ForeignKey(Khoahoc.id), nullable=False)
 
 
-if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
-
-        c1 = Capdo(name="Beginner")
-        c2 = Capdo(name="Intermediate")
-        c3 = Capdo(name="Advanced")
-        db.session.add_all([c1, c2, c3])
-        db.session.commit()
-
-        with open("data/khoahoc.json", encoding="utf-8") as f:
-            khoahoc = json.load(f)
-
-            for k in khoahoc:
-                db.session.add(Khoahoc(**k))
-
-            db.session.commit()
-
-
-        with open("data/lophoc.json", encoding="utf-8") as f:
-            lophoc = json.load(f)
-
-            for l in lophoc:
-                    db.session.add(Lophoc(**l))
-
-        import hashlib
-
-        u = User(name="User", username="user", password= str(hashlib.md5("123".encode("utf-8")).hexdigest()))
-
-
-        db.session.add(u)
-        db.session.commit()
+# if __name__ == "__main__":
+#     with app.app_context():
+#         db.create_all()
+#
+#         c1 = Capdo(name="Beginner")
+#         c2 = Capdo(name="Intermediate")
+#         c3 = Capdo(name="Advanced")
+#         db.session.add_all([c1, c2, c3])
+#         db.session.commit()
+#
+#         with open("data/khoahoc.json", encoding="utf-8") as f:
+#             khoahoc = json.load(f)
+#
+#             for k in khoahoc:
+#                 db.session.add(Khoahoc(**k))
+#
+#             db.session.commit()
+#
+#
+#         with open("data/lophoc.json", encoding="utf-8") as f:
+#             lophoc = json.load(f)
+#
+#             for l in lophoc:
+#                     db.session.add(Lophoc(**l))
+#
+#         import hashlib
+#
+#         u = User(name="User", username="user", password= str(hashlib.md5("123".encode("utf-8")).hexdigest()))
+#
+#
+#         db.session.add(u)
+#         db.session.commit()

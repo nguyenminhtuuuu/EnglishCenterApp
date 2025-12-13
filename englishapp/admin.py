@@ -72,7 +72,7 @@ class MyLophocView(MyAuthenticatedView):
 class MyAdminIndexView(AdminIndexView):
     @expose("/")
     def index(self) :
-        return self.render('admin/index.html')
+        return self.render('admin/index.html',cate_stats=dao.count_khoahoc_by_capdo())
 
 class MyLogoutView(BaseView):
     @expose("/")
