@@ -84,19 +84,31 @@ class MyLogoutView(BaseView):
         return current_user.is_authenticated
 
 
-class StatsView(BaseView):
+class ThongKeBaoCaoView(BaseView):
     @expose('/')
     def index(self) -> str:
-        return self.render("admin/stats.html")
+        return redirect("/admin/thong-ke-bao-cao")
+
+    def is_accessible(self) -> bool:
+        return current_user.is_authenticated and current_user.role == UserEnum.ADMIN
+
+
+class QuanLyHoaDonView(BaseView):
+    @expose('/')
+    def index(self) -> str:
+        return redirect("/admin/hoadon")
+
+    def is_accessible(self) -> bool:
+        return current_user.is_authenticated and current_user.role == UserEnum.ADMIN
 
 admin = Admin(app=app, name="Enghlish Center", theme=Bootstrap4Theme(), index_view=MyAdminIndexView())
 
-admin.add_view(MyCapdoView(Capdo, db.session))
-admin.add_view(MyKhoahocView(Khoahoc, db.session))
-admin.add_view(MyLophocView(Lophoc, db.session))
+admin.add_view(MyCapdoView(Capdo, db.session, name='Cấp độ', category='Quản lý'))
+admin.add_view(MyKhoahocView(Khoahoc, db.session, name='Khóa học', category='Quản lý'))
+admin.add_view(MyLophocView(Lophoc, db.session, name='Lớp học', category='Quản lý'))
+admin.add_view(QuanLyHoaDonView("Quản lý hóa đơn", category='Báo cáo'))
+admin.add_view(ThongKeBaoCaoView("Thống kê - Báo cáo", category='Báo cáo'))
 admin.add_view(MyLogoutView("Đăng xuất"))
-admin.add_view(StatsView("Thống kê"))
-
 
 
 

@@ -1,0 +1,427 @@
+{% extends 'admin/master.html' %}
+
+{% block title %}Thống Kê - Báo Cáo - Admin{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3 class="text-info text-center mt-3">
+        <i class="fas fa-chart-bar me-2"></i>THỐNG KÊ - BÁO CÁO
+    </h3>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Năm:</label>
+                    <select class="form-select" name="nam" onchange="this.form.submit()">
+                        <option value="">Tất cả</option>
+                        {% for nam in nam_co_du_lieu %}
+                        <option value="{{ nam }}" {% if nam_hien_tai == nam %}selected{% endif %}>
+                            Năm {{ nam }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<!--    Thống kê tổng quan-->
+    <div class="row mt-4">
+        <div class="col-md-2">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Học Viên</h5>
+                    <p class="card-text display-6">{{ tong_quan.tong_hoc_vien }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Khóa Học</h5>
+                    <p class="card-text display-6">{{ tong_quan.tong_khoa_hoc }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Lớp Học</h5>
+                    <p class="card-text display-6">{{ tong_quan.tong_lop_hoc }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Doanh Thu</h5>
+                    <p class="card-text display-6">{{ tong_quan.tong_doanh_thu }}$</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Hóa Đơn</h5>
+                    <p class="card-text display-6">{{ tong_quan.tong_hoa_don }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHẦN THỐNG KÊ -->
+    <div class="card mt-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="fas fa-chart-pie me-2"></i>PHẦN THỐNG KÊ</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Biểu đồ số lượng học viên theo khóa -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">1. Số lượng học viên theo khóa</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="soLuongHVChart" height="200"></canvas>
+                            <div class="table-responsive mt-3">
+                                <table class="table table-sm table-bordered">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Khóa học</th>
+                                            <th>Số lượng HV</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in so_luong_hv %}
+                                        <tr>
+                                            <td>{{ item.ten_khoa_hoc }}</td>
+                                            <td><span class="badge bg-primary">{{ item.so_luong_hv }}</span></td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="2" class="text-center">Chưa có dữ liệu</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bảng tỷ lệ đạt theo khóa học -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">2. Tỷ lệ đạt theo khóa học</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Khóa học</th>
+                                            <th>Tổng số</th>
+                                            <th>Số đạt</th>
+                                            <th>Tỷ lệ đạt</th>
+                                            <th>Điểm TB</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in ty_le_dat %}
+                                        <tr>
+                                            <td>{{ item.ten_khoa_hoc }}</td>
+                                            <td>{{ item.tong_so }}</td>
+                                            <td>{{ item.so_dat }}</td>
+                                            <td>
+                                                <div class="progress" style="height: 20px;">
+                                                    <div class="progress-bar
+                                                        {% if item.ty_le_dat >= 80 %}bg-success
+                                                        {% elif item.ty_le_dat >= 60 %}bg-warning
+                                                        {% else %}bg-danger{% endif %}"
+                                                        role="progressbar"
+                                                        style="width: {{ item.ty_le_dat }}%;">
+                                                        {{ item.ty_le_dat }}%
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge
+                                                    {% if item.diem_trung_binh >= 8 %}bg-success
+                                                    {% elif item.diem_trung_binh >= 5 %}bg-warning
+                                                    {% else %}bg-danger{% endif %}">
+                                                    {{ "%.1f"|format(item.diem_trung_binh) }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="5" class="text-center">Chưa có dữ liệu kết quả học tập</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHẦN BÁO CÁO -->
+    <div class="card mt-4">
+        <div class="card-header bg-warning text-dark">
+            <h4 class="mb-0"><i class="fas fa-chart-line me-2"></i>PHẦN BÁO CÁO</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Biểu đồ doanh thu theo tháng -->
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Biểu đồ doanh thu trung tâm theo tháng</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="doanhThuChart" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bảng doanh thu theo tháng -->
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">Doanh thu theo tháng</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Tháng/Năm</th>
+                                            <th>Doanh thu ($)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in doanh_thu_thang %}
+                                        <tr>
+                                            <td>{{ item.thang }}/{{ item.nam }}</td>
+                                            <td><strong>{{ item.doanh_thu or 0 }}</strong></td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="2" class="text-center">Chưa có dữ liệu</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Báo cáo doanh thu theo khóa học -->
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">Báo cáo doanh thu theo khóa học</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Khóa học</th>
+                                            <th>Cấp độ</th>
+                                            <th>Số hóa đơn</th>
+                                            <th>Doanh thu ($)</th>
+                                            <th>Tỷ lệ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set tong_doanh_thu_khoa = doanh_thu_khoa|sum(attribute='doanh_thu') %}
+                                        {% for item in doanh_thu_khoa %}
+                                        <tr>
+                                            <td>{{ item.ten_khoa_hoc }}</td>
+                                            <td><span class="badge bg-info">{{ item.cap_do }}</span></td>
+                                            <td>{{ item.so_hoa_don }}</td>
+                                            <td><strong>{{ item.doanh_thu or 0 }}</strong></td>
+                                            <td>
+                                                {% if tong_doanh_thu_khoa > 0 %}
+                                                {% set ty_le = (item.doanh_thu / tong_doanh_thu_khoa * 100)|round(1) %}
+                                                <div class="progress" style="height: 20px;">
+                                                    <div class="progress-bar" role="progressbar"
+                                                         style="width: {{ ty_le }}%;">
+                                                        {{ ty_le }}%
+                                                    </div>
+                                                </div>
+                                                {% else %}
+                                                0%
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% else %}
+                                        <tr>
+                                            <td colspan="5" class="text-center">Chưa có dữ liệu doanh thu</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot class="table-dark">
+                                        <tr>
+                                            <th colspan="3" class="text-end">Tổng cộng:</th>
+                                            <th colspan="2">{{ tong_doanh_thu_khoa }}$</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Xuất báo cáo -->
+    <div class="mt-4 mb-5">
+        <button class="btn btn-success" onclick="exportToExcel()">
+            <i class="fas fa-file-excel me-1"></i> Xuất Excel
+        </button>
+        <button class="btn btn-danger" onclick="window.print()">
+            <i class="fas fa-print me-1"></i> In Báo Cáo
+        </button>
+        <a href="{{ url_for('quan_ly_hoadon') }}" class="btn btn-primary">
+            <i class="fas fa-file-invoice-dollar me-1"></i> Quản Lý Hóa Đơn
+        </a>
+        <a href="/admin" class="btn btn-secondary">
+            <i class="fas fa-tachometer-alt me-1"></i> Về Trang Quản Trị
+        </a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Biểu đồ số lượng học viên theo khóa
+    fetch('/admin/api/so-luong-hv-theo-khoa')
+        .then(response => response.json())
+        .then(data => {
+            const ctx1 = document.getElementById('soLuongHVChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: data.datasets
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+    // Biểu đồ doanh thu theo tháng
+    fetch('/admin/api/doanh-thu-theo-thang?nam={{ nam_hien_tai or "" }}')
+        .then(response => response.json())
+        .then(data => {
+            const ctx2 = document.getElementById('doanhThuChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Doanh thu ($)',
+                        data: data.datasets[0].data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '$';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+    // Hàm xuất Excel
+    function exportToExcel() {
+        // Tạo bảng dữ liệu
+        let data = [];
+
+        // Tiêu đề
+        data.push(['BÁO CÁO THỐNG KÊ - ENGLISH CENTER']);
+        data.push(['Ngày xuất:', new Date().toLocaleDateString('vi-VN')]);
+        data.push([]);
+
+        // Thống kê số lượng học viên
+        data.push(['THỐNG KÊ SỐ LƯỢNG HỌC VIÊN THEO KHÓA']);
+        data.push(['Khóa học', 'Số lượng học viên']);
+        {% for item in so_luong_hv %}
+        data.push(['{{ item.ten_khoa_hoc }}', {{ item.so_luong_hv }}]);
+        {% endfor %}
+        data.push([]);
+
+        // Thống kê tỷ lệ đạt
+        data.push(['THỐNG KÊ TỶ LỆ ĐẠT THEO KHÓA HỌC']);
+        data.push(['Khóa học', 'Tổng số', 'Số đạt', 'Tỷ lệ đạt (%)', 'Điểm TB']);
+        {% for item in ty_le_dat %}
+        data.push(['{{ item.ten_khoa_hoc }}', {{ item.tong_so }}, {{ item.so_dat }}, {{ item.ty_le_dat }}, {{ item.diem_trung_binh }}]);
+        {% endfor %}
+        data.push([]);
+
+        // Báo cáo doanh thu
+        data.push(['BÁO CÁO DOANH THU THEO THÁNG']);
+        data.push(['Tháng/Năm', 'Doanh thu ($)']);
+        {% for item in doanh_thu_thang %}
+        data.push(['{{ item.thang }}/{{ item.nam }}', {{ item.doanh_thu or 0 }}]);
+        {% endfor %}
+        data.push([]);
+
+        // Doanh thu theo khóa học
+        data.push(['DOANH THU THEO KHÓA HỌC']);
+        data.push(['Khóa học', 'Cấp độ', 'Số hóa đơn', 'Doanh thu ($)', 'Tỷ lệ (%)']);
+        {% set tong_doanh_thu_khoa = doanh_thu_khoa|sum(attribute='doanh_thu') %}
+        {% for item in doanh_thu_khoa %}
+        {% if tong_doanh_thu_khoa > 0 %}
+        {% set ty_le = (item.doanh_thu / tong_doanh_thu_khoa * 100)|round(1) %}
+        data.push(['{{ item.ten_khoa_hoc }}', '{{ item.cap_do }}', {{ item.so_hoa_don }}, {{ item.doanh_thu or 0 }}, {{ ty_le }}]);
+        {% else %}
+        data.push(['{{ item.ten_khoa_hoc }}', '{{ item.cap_do }}', {{ item.so_hoa_don }}, {{ item.doanh_thu or 0 }}, 0]);
+        {% endif %}
+        {% endfor %}
+
+        // Chuyển đổi sang CSV
+        let csv = data.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+
+        // Tạo file download
+        let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = 'bao_cao_thong_ke_{{ nam_hien_tai if nam_hien_tai else "all" }}.csv';
+        a.click();
+    }
+</script>
+{% endblock %}
