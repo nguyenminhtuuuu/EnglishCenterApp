@@ -1,0 +1,90 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Phiếu Đăng Ký Của Tôi{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3 class="text-info text-center mt-3">
+        <i class="fas fa-file-alt me-2"></i>PHIẾU ĐĂNG KÝ CỦA TÔI
+    </h3>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} mt-2">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="table-responsive mt-3">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Mã ĐK</th>
+                    <th>Khóa Học</th>
+                    <th>Lớp Học</th>
+                    <th>Ngày Đăng Ký</th>
+                    <th>Trạng Thái</th>
+                    <th>Học Phí</th>
+                    <th>Thanh Toán</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pd in phieu_dk %}
+                <tr>
+                    <td>{{ pd.maDK }}</td>
+                    <td>{{ pd.lophoc.Khoahoc.name }}</td>
+                    <td>{{ pd.lophoc.name }}</td>
+                    <td>{{ pd.ngayDK.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if pd.trangThai == 'Đã xác nhận' %}bg-success
+                            {% elif pd.trangThai == 'Chờ xác nhận' %}bg-warning
+                            {% else %}bg-danger{% endif %}">
+                            {{ pd.trangThai }}
+                        </span>
+                    </td>
+                    <td>{{ pd.lophoc.Khoahoc.hocPhi }}$</td>
+                    <td>
+                        {% if pd.hoadon %}
+                        <span class="badge 
+                            {% if pd.hoadon.trangThai == 'Đã thanh toán' %}bg-success
+                            {% else %}bg-danger{% endif %}">
+                            {{ pd.hoadon.trangThai }}
+                        </span>
+                        {% else %}
+                        <span class="badge bg-secondary">Chưa có</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if pd.hoadon and pd.hoadon.trangThai == 'Chưa thanh toán' %}
+                        <a href="{{ url_for('hoadon_cua_toi') }}" class="btn btn-sm btn-danger">
+                            <i class="fas fa-money-bill-wave me-1"></i>Thanh Toán
+                        </a>
+                        {% elif pd.hoadon %}
+                        <a href="{{ url_for('hoadon_cua_toi') }}" class="btn btn-sm btn-info">
+                            <i class="fas fa-eye me-1"></i>Xem HĐ
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="8" class="text-center">Bạn chưa có phiếu đăng ký nào</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3">
+        <a href="/" class="btn btn-primary">
+            <i class="fas fa-book me-1"></i>Tiếp tục đăng ký khóa học
+        </a>
+        <a href="{{ url_for('hoadon_cua_toi') }}" class="btn btn-info">
+            <i class="fas fa-receipt me-1"></i>Xem Hóa Đơn
+        </a>
+    </div>
+</div>
+{% endblock %}

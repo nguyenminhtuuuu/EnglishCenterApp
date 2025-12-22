@@ -1,0 +1,138 @@
+{% extends 'admin/master.html' %}
+
+{% block title %}Quản Lý Hóa Đơn - Admin{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3 class="text-info text-center mt-3">
+        <i class="fas fa-file-invoice-dollar me-2"></i>QUẢN LÝ HÓA ĐƠN
+    </h3>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} mt-2">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- Bộ lọc -->
+    <div class="card mt-3">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="keyword"
+                           placeholder="Tìm theo tên, SĐT, mã HD, khóa học..."
+                           value="{{ keyword or '' }}">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="trangThai">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="Chưa thanh toán" {% if trangThai=='Chưa thanh toán' %}selected{% endif %}>
+                            Chưa thanh toán
+                        </option>
+                        <option value="Đã thanh toán" {% if trangThai=='Đã thanh toán' %}selected{% endif %}>
+                            Đã thanh toán
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-1"></i>Lọc
+                    </button>
+                    <a href="{{ url_for('quan_ly_hoadon') }}" class="btn btn-secondary">Reset</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bảng hóa đơn -->
+    <div class="table-responsive mt-3">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Mã HD</th>
+                    <th>Tên Học Viên</th>
+                    <th>Khóa Học</th>
+                    <th>Lớp Học</th>
+                    <th>Ngày Tạo</th>
+                    <th>Học phí</th>
+                    <th>Trạng Thái</th>
+                    <th>Phương Thức TT</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hd in hoadons %}
+                <tr>
+                    <td>{{ hd.maHD }}</td>
+                    <td>{{ hd.phieudangky.hocvien.name }}</td>
+                    <td>{{ hd.phieudangky.lophoc.Khoahoc.name }}</td>
+                    <td>{{ hd.phieudangky.lophoc.name }}</td>
+                    <td>{{ hd.ngayTao.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td><strong>{{ hd.tongTien }}$</strong></td>
+                    <td>
+                        <span class="badge
+                            {% if hd.trangThai == 'Đã thanh toán' %}bg-success
+                            {% else %}bg-danger{% endif %}">
+                            {{ hd.trangThai }}
+                        </span>
+                    </td>
+                    <td>{{ hd.phuongThucTT or 'Chưa xác định' }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#updateModal{{ hd.id }}">
+                            <i class="fas fa-edit me-1"></i>Cập Nhật
+                        </button>
+
+                        <!-- Modal Cập Nhật -->
+                        <div class="modal fade" id="updateModal{{ hd.id }}" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Cập Nhật Hóa Đơn {{ hd.maHD }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="post" action="{{ url_for('update_hoadon_admin', hoadon_id=hd.id) }}">
+                                            <div class="mb-3">
+                                                <label class="form-label">Trạng thái:</label>
+                                                <select name="trangThai" class="form-select" required>
+                                                    <option value="Chưa thanh toán" {% if hd.trangThai=='Chưa thanh toán' %}selected{% endif %}>
+                                                        Chưa thanh toán
+                                                    </option>
+                                                    <option value="Đã thanh toán" {% if hd.trangThai=='Đã thanh toán' %}selected{% endif %}>
+                                                        Đã thanh toán
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Phương thức thanh toán:</label>
+                                                <select name="phuongThucTT" class="form-select">
+                                                    <option value="">Chọn phương thức</option>
+                                                    <option value="Tiền mặt" {% if hd.phuongThucTT=='Tiền mặt' %}selected{% endif %}>Tiền mặt</option>
+                                                    <option value="Chuyển khoản" {% if hd.phuongThucTT=='Chuyển khoản' %}selected{% endif %}>Chuyển khoản</option>
+                                                    <option value="Momo" {% if hd.phuongThucTT=='Momo' %}selected{% endif %}>Momo</option>
+                                                    <option value="Visa/Mastercard" {% if hd.phuongThucTT=='Visa/Mastercard' %}selected{% endif %}>Visa/Mastercard</option>
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn btn-success w-100">
+                                                <i class="fas fa-save me-1"></i>Lưu thay đổi
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="9" class="text-center">Không có hóa đơn nào</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Hóa Đơn Của Tôi{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3 class="text-info text-center mt-3">
+        <i class="fas fa-receipt me-2"></i>HÓA ĐƠN CỦA TÔI
+    </h3>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} mt-2">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="table-responsive mt-3">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Mã HD</th>
+                    <th>Khóa Học</th>
+                    <th>Lớp Học</th>
+                    <th>Ngày Tạo</th>
+                    <th>Tổng Tiền</th>
+                    <th>Trạng Thái</th>
+                    <th>Phương Thức TT</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hd in hoadons %}
+                <tr>
+                    <td>{{ hd.maHD }}</td>
+                    <td>{{ hd.phieudangky.lophoc.Khoahoc.name }}</td>
+                    <td>{{ hd.phieudangky.lophoc.name }}</td>
+                    <td>{{ hd.ngayTao.strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td><strong>{{ hd.tongTien }}$</strong></td>
+                    <td>
+                        <span class="badge 
+                            {% if hd.trangThai == 'Đã thanh toán' %}bg-success
+                            {% else %}bg-danger{% endif %}">
+                            {{ hd.trangThai }}
+                        </span>
+                    </td>
+                    <td>{{ hd.phuongThucTT or 'Chưa xác định' }}</td>
+                    <td>
+                        {% if hd.trangThai == 'Chưa thanh toán' %}
+                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" 
+                                data-bs-target="#thanhToanModal{{ hd.id }}">
+                            <i class="fas fa-money-bill-wave me-1"></i>Thanh Toán
+                        </button>
+                        
+                        <!-- Modal Thanh Toán -->
+                        <div class="modal fade" id="thanhToanModal{{ hd.id }}" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Thanh Toán Hóa Đơn {{ hd.maHD }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Khóa học:</strong> {{ hd.phieudangky.lophoc.Khoahoc.name }}</p>
+                                        <p><strong>Số tiền:</strong> <span class="text-danger fw-bold">{{ hd.tongTien }}$</span></p>
+                                        <form method="post" action="{{ url_for('thanh_toan_hoadon', hoadon_id=hd.id) }}">
+                                            <div class="mb-3">
+                                                <label class="form-label">Phương thức thanh toán:</label>
+                                                <select name="phuongThucTT" class="form-select" required>
+                                                    <option value="Tiền mặt">Tiền mặt</option>
+                                                    <option value="Chuyển khoản">Chuyển khoản</option>
+                                                    <option value="Momo">Momo</option>
+                                                    <option value="Visa/Mastercard">Visa/Mastercard</option>
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn btn-success w-100">
+                                                <i class="fas fa-check me-1"></i>Xác nhận thanh toán
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <span class="badge bg-success">
+                            <i class="fas fa-check me-1"></i>Đã thanh toán
+                        </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="8" class="text-center">Bạn chưa có hóa đơn nào</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-3">
+        <a href="{{ url_for('xem_phieu_dang_ky') }}" class="btn btn-info">
+            <i class="fas fa-file-alt me-1"></i>Xem Phiếu Đăng Ký
+        </a>
+        <a href="/" class="btn btn-primary">
+            <i class="fas fa-book me-1"></i>Đăng ký khóa học mới
+        </a>
+    </div>
+</div>
+{% endblock %}
