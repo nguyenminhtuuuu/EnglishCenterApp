@@ -106,38 +106,38 @@ class KetQuaHocTap(db.Model):
 
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()
-
-        c1 = Capdo(name="Beginner")
-        c2 = Capdo(name="Intermediate")
-        c3 = Capdo(name="Advanced")
-        db.session.add_all([c1, c2, c3])
-        db.session.commit()
-
-        with open("data/khoahoc.json", encoding="utf-8") as f:
-            khoahoc = json.load(f)
-
-            for k in khoahoc:
-                db.session.add(Khoahoc(**k))
-
-            db.session.commit()
-
-
-        with open("data/lophoc.json", encoding="utf-8") as f:
-            lophoc = json.load(f)
-
-            for l in lophoc:
-                    db.session.add(Lophoc(**l))
-
-        import hashlib
-
-        # Tạo user mẫu
-        u1 = User(name="Admin", username="admin",
-          password=str(hashlib.md5("123".encode("utf-8")).hexdigest()), email ="nguyenhuynhnhuybt@gmail.com",
-          role=UserEnum.ADMIN)
-        u2 = User(name="User", username="user",
-          password=str(hashlib.md5("123".encode("utf-8")).hexdigest()), email ="nhuy06022005@gmail.com",
-          role=UserEnum.USER)
-
-        db.session.add_all([u1,u2])
+        # db.create_all()
+        #
+        # c1 = Capdo(name="Beginner")
+        # c2 = Capdo(name="Intermediate")
+        # c3 = Capdo(name="Advanced")
+        # db.session.add_all([c1, c2, c3])
+        # db.session.commit()
+        #
+        # with open("data/khoahoc.json", encoding="utf-8") as f:
+        #     khoahoc = json.load(f)
+        #
+        #     for k in khoahoc:
+        #         db.session.add(Khoahoc(**k))
+        #
+        #     db.session.commit()
+        #
+        #
+        # with open("data/lophoc.json", encoding="utf-8") as f:
+        #     lophoc = json.load(f)
+        #
+        #     for l in lophoc:
+        #             db.session.add(Lophoc(**l))
+        #
+        # import hashlib
+        #
+        # # Tạo user mẫu
+        # u1 = User(name="Admin", username="admin",
+        #   password=str(hashlib.md5("123".encode("utf-8")).hexdigest()), email ="nguyenhuynhnhuybt@gmail.com",
+        #   role=UserEnum.ADMIN)
+        # u2 = User(name="User", username="user",
+        #   password=str(hashlib.md5("123".encode("utf-8")).hexdigest()), email ="nhuy06022005@gmail.com",
+        #   role=UserEnum.USER)
+        #
+        # db.session.add_all([u1,u2])
         db.session.commit()

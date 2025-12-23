@@ -3,7 +3,7 @@ from flask_admin import Admin, AdminIndexView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.theme import Bootstrap4Theme
 from englishapp import app, db, dao
-from models import Capdo, Khoahoc,Lophoc, User, UserEnum
+from englishapp.models import Capdo, Khoahoc,Lophoc, User, UserEnum
 from flask_admin import BaseView
 from flask_login import logout_user, current_user
 from wtforms import TextAreaField

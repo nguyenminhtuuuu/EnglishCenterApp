@@ -5,7 +5,14 @@ import hashlib
 from sqlalchemy import func, extract, case
 from datetime import datetime, timedelta
 from englishapp import app, db
-from models import Capdo, Khoahoc, Lophoc, User, PhieuDangKy, HoaDon, KetQuaHocTap, UserEnum
+# from models import Capdo, Khoahoc, Lophoc, User, PhieuDangKy, HoaDon, KetQuaHocTap, UserEnum
+from englishapp.models import (
+    Capdo, Khoahoc, Lophoc,
+    User, PhieuDangKy,
+    HoaDon, KetQuaHocTap
+)
+UserEnum = User.role.type.enum_class
+
 
 
 def load_capdo():
@@ -296,7 +303,9 @@ def bao_cao_doanh_thu_theo_khoa(tu_ngay=None, den_ngay=None):
 
 
 def thong_ke_tong_quan():
-    tong_hoc_vien = User.query.filter_by(role=UserEnum.USER).count()
+    tong_hoc_vien = User.query.filter(User.role == UserEnum.USER).count()
+
+    # tong_hoc_vien = User.query.filter_by(role=UserEnum.USER).count()
     tong_khoa_hoc = Khoahoc.query.count()
     tong_lop_hoc = Lophoc.query.count()
 
