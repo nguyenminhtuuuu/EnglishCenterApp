@@ -10,40 +10,50 @@
     </div>
 
     {% if ds_lop %}
-        {% for lop in ds_lop %}
-        <div class="col-md-4 col-sm-6 mb-4">
-            <div class="card h-100 shadow-sm border-primary">
-                <div class="card-header bg-primary text-white text-center">
-                    <h5 class="card-title mb-0" style="font-size: 1.1rem;">
-                        {{ lop.Khoahoc.name }}
-                    </h5>
-                </div>
+    {% for lop in ds_lop %}
+    <div class="col-md-4 col-sm-6 mb-4">
+        <div class="card h-100 shadow-sm border-primary">
+            <div class="card-header bg-primary text-white text-center">
+                <h5 class="card-title mb-0" style="font-size: 1.1rem;">
+                    {{ lop.Khoahoc.name }}
+                </h5>
+            </div>
 
-                <div class="card-body">
-                    <p class="card-text">
-                        <strong>Mã lớp:</strong> <span class="badge bg-secondary">{{ lop.id }}</span><br>
-                        <strong>Lịch học:</strong> {{ lop.lichHoc }}<br>
-                        <strong>Thời gian:</strong> {{ lop.ngayBD }} - {{ lop.ngayKT }}<br>
-                        <strong>Sĩ số:</strong> {{ lop.soHVToiDa }} học viên
-                    </p>
-                </div>
+            <div class="card-body">
+                <p class="card-text">
+                    <strong>Mã lớp:</strong> <span class="badge bg-secondary">{{ lop.id }}</span><br>
+                    <strong>Lịch học:</strong> {{ lop.lichHoc }}<br>
+                    <strong>Thời gian:</strong> {{ lop.ngayBD }} - {{ lop.ngayKT }}<br>
+                    <strong>Sĩ số:</strong> {{ lop.soHVToiDa }} học viên
+                </p>
+            </div>
 
-                <div class="card-footer bg-white text-center border-top-0">
-                    <a href="{{ url_for('nhap_diem', lophoc_id=lop.id) }}" class="btn btn-outline-primary w-100">
-                        &#9999; Nhập điểm & Quản lý
+            <div class="card-footer bg-white border-top-0">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('nhapdiem', lophoc_id=lop.id) }}" class="btn btn-outline-primary btn-sm">
+                        <i class="fa fa-edit"></i> Nhập điểm
+                    </a>
+
+                    <a href="{{ url_for('diemdanh', lophoc_id=lop.id) }}" class="btn btn-outline-success btn-sm">
+                        <i class="fa fa-calendar-check"></i> Điểm danh
+                    </a>
+
+                    <a href="{{ url_for('quanlylop', lophoc_id=lop.id) }}" class="btn btn-outline-info btn-sm">
+                        <i class="fa fa-tasks"></i> Quản lý lớp
                     </a>
                 </div>
             </div>
         </div>
-        {% endfor %}
+    </div>
+    {% endfor %}
 
     {% else %}
-        <div class="col-12">
-            <div class="alert alert-warning text-center">
-                <h4>Chưa có dữ liệu!</h4>
-                <p>Hiện tại bạn chưa được phân công giảng dạy lớp nào.</p>
-            </div>
+    <div class="col-12">
+        <div class="alert alert-warning text-center">
+            <h4>Chưa có dữ liệu!</h4>
+            <p>Hiện tại bạn chưa được phân công giảng dạy lớp nào.</p>
         </div>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

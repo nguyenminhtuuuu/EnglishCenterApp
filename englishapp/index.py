@@ -327,9 +327,9 @@ def teacher_dashboard():
     ds_lop = dao.get_classes_by_teacher(current_user.id)
     return render_template('teacher/index.html', ds_lop=ds_lop)
 
-@app.route('/teacher/lophoc/<int:lophoc_id>/nhap-diem', methods=['GET', 'POST'])
+@app.route('/teacher/lophoc/<int:lophoc_id>/nhapdiem', methods=['GET', 'POST'])
 @login_required
-def nhap_diem(lophoc_id):
+def nhapdiem(lophoc_id):
     if current_user.role != UserEnum.TEACHER:
         return redirect(url_for('index'))
 
@@ -347,11 +347,49 @@ def nhap_diem(lophoc_id):
             if diem_gk and diem_ck:
                 dao.luu_ket_qua_hoc_tap(phieu.id, diem_gk, diem_ck)
 
-        return redirect(url_for('nhap_diem', lophoc_id=lophoc_id))
+        return redirect(url_for('nhapdiem', lophoc_id=lophoc_id))
 
     ds_hocvien = dao.get_hocvien_in_lophoc(lophoc_id)
-    return render_template('teacher/nhap-diem.html', lop=lop, ds_hocvien=ds_hocvien)
+    return render_template('teacher/nhapdiem.html', lop=lop, ds_hocvien=ds_hocvien)
 
+
+@app.route('/teacher/lophoc/<int:lophoc_id>/diemdanh', methods=['GET', 'POST'])
+@login_required
+def diemdanh(lophoc_id):
+    if current_user.role != UserEnum.TEACHER:
+        return redirect('/')
+
+    lop = dao.get_lophoc_by_id(lophoc_id)
+    if not lop or lop.giaoVien_id != current_user.id:
+        return "Bạn không có quyền truy cập!", 403
+
+    ds_hocvien = dao.get_hocvien_in_lophoc(lophoc_id)
+
+    if request.method == 'POST':
+        for phieu in ds_hocvien:
+            trang_thai = request.form.get(f'tt_{phieu.id}')
+            ghi_chu = request.form.get(f'gc_{phieu.id}')
+            if trang_thai:
+                dao.luu_diem_danh(phieu.id, trang_thai, ghi_chu)
+
+        return redirect(url_for('diemdanh', lophoc_id=lophoc_id))
+
+    return render_template('teacher/diemdanh.html', lop=lop, ds_hocvien=ds_hocvien, today=datetime.now())
+
+
+# --- 2. ROUTE QUẢN LÝ LỚP (Xem danh sách) ---
+@app.route('/teacher/lophoc/<int:lophoc_id>/quanlylop')
+@login_required
+def quanlylop(lophoc_id):
+    if current_user.role != UserEnum.TEACHER:
+        return redirect('/')
+
+    lop = dao.get_lophoc_by_id(lophoc_id)
+    if not lop or lop.giaoVien_id != current_user.id:
+        return "Bạn không có quyền truy cập!", 403
+
+    ds_hocvien = dao.get_hocvien_in_lophoc(lophoc_id)
+    return render_template('teacher/quanlylop.html', lop=lop, ds_hocvien=ds_hocvien)
 
 if __name__ == '__main__':
     with app.app_context():
