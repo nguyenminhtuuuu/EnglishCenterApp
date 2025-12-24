@@ -6,7 +6,6 @@ import math
 from englishapp import dao, app, login, admin, db
 from flask_login import login_user, current_user, logout_user, login_required
 import cloudinary.uploader
-
 from englishapp.models import UserEnum
 
 
@@ -318,6 +317,40 @@ def api_doanh_thu_theo_thang():
         }]
     })
 
+
+@app.route('/teacher')
+@login_required
+def teacher_dashboard():
+    if current_user.role != UserEnum.TEACHER:
+        return redirect('')
+
+    ds_lop = dao.get_classes_by_teacher(current_user.id)
+    return render_template('teacher/index.html', ds_lop=ds_lop)
+
+@app.route('/teacher/lophoc/<int:lophoc_id>/nhap-diem', methods=['GET', 'POST'])
+@login_required
+def nhap_diem(lophoc_id):
+    if current_user.role != UserEnum.TEACHER:
+        return redirect(url_for('index'))
+
+    lop = dao.get_lophoc_by_id(lophoc_id)
+
+    if not lop or lop.giaoVien_id != current_user.id:
+        return "Bạn không có quyền truy cập lớp học này!", 403
+
+    if request.method == 'POST':
+        ds_phieu = dao.get_hocvien_in_lophoc(lophoc_id)
+
+        for phieu in ds_phieu:
+            diem_gk = request.form.get(f'gk_{phieu.id}')
+            diem_ck = request.form.get(f'ck_{phieu.id}')
+            if diem_gk and diem_ck:
+                dao.luu_ket_qua_hoc_tap(phieu.id, diem_gk, diem_ck)
+
+        return redirect(url_for('nhap_diem', lophoc_id=lophoc_id))
+
+    ds_hocvien = dao.get_hocvien_in_lophoc(lophoc_id)
+    return render_template('teacher/nhap-diem.html', lop=lop, ds_hocvien=ds_hocvien)
 
 
 if __name__ == '__main__':

@@ -6,7 +6,8 @@
     "lichHoc": "Thứ 2 & Thứ 4 (18h–19h30)",
     "ngayBD": "05/01/2026",
     "ngayKT": "26/01/2026",
-    "maKH": 1
+    "maKH": 1,
+    "giaoVien_id": 3
   },
 
   {
@@ -27,7 +28,8 @@
     "lichHoc": "Thứ 7 (9h–11h)",
     "ngayBD": "10/01/2026",
     "ngayKT": "31/01/2026",
-    "maKH": 2
+    "maKH": 2,
+    "giaoVien_id": 3
   },
 
   {

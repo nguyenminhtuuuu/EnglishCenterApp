@@ -31,6 +31,7 @@ class User(Base, UserMixin):
     role = Column(Enum(UserEnum), nullable=False, default=UserEnum.USER)
 
 
+
 class Capdo(Base):
     khoahocs = relationship('Khoahoc', backref="Capdo", lazy=True)
 
@@ -50,6 +51,10 @@ class Lophoc(Base):
     ngayBD = Column(String(50), nullable=False)
     ngayKT = Column(String(50), nullable=False)
     maKH = Column(Integer, ForeignKey(Khoahoc.id), nullable=False)
+
+    #Capnhat giao vien
+    giaoVien_id = Column(Integer, ForeignKey(User.id), nullable=True)
+    giaoVien = relationship('User', backref='lop_giang_day')
 
 
 class PhieuDangKy(db.Model):
@@ -104,6 +109,20 @@ class KetQuaHocTap(db.Model):
     def is_dat(self):
         return self.diemTongKet >= 5 if self.diemTongKet else False
 
+    def tinh_diem_tong_ket(self):
+        # Giữa kỳ 40%, Cuối kỳ 60%
+        self.diemTongKet = (float(self.diemGiuaKy) * 0.4) + (float(self.diemCuoiKy) * 0.6)
+        self.diemTongKet = round(self.diemTongKet, 2)
+
+        if self.diemTongKet >= 8.5:
+            self.xepLoai = 'Giỏi'
+        elif self.diemTongKet >= 7.0:
+            self.xepLoai = 'Khá'
+        elif self.diemTongKet >= 5.0:
+            self.xepLoai = 'Trung bình'
+        else:
+            self.xepLoai = 'Yếu'
+
 if __name__ == "__main__":
     with app.app_context():
         # db.create_all()
@@ -138,6 +157,9 @@ if __name__ == "__main__":
         # u2 = User(name="User", username="user",
         #   password=str(hashlib.md5("123".encode("utf-8")).hexdigest()), email ="nhuy06022005@gmail.com",
         #   role=UserEnum.USER)
+        # u3 = User(name="TEACHER", username="teacher",
+        #   password=str(hashlib.md5("123".encode("utf-8")).hexdigest()), email ="tuyettrinhnguyenthi25042005@gmail.com",
+        #   role=UserEnum.TEACHER)
         #
-        # db.session.add_all([u1,u2])
+        # db.session.add_all([u1,u2,u3])
         db.session.commit()

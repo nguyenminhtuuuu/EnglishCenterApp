@@ -1,0 +1,49 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Quản lý lớp học{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-12 text-center mb-4">
+        <h3 class="text-primary text-uppercase">Danh sách lớp giảng dạy</h3>
+        <p class="text-muted">Giảng viên: <strong>{{ current_user.name }}</strong></p>
+    </div>
+
+    {% if ds_lop %}
+        {% for lop in ds_lop %}
+        <div class="col-md-4 col-sm-6 mb-4">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-header bg-primary text-white text-center">
+                    <h5 class="card-title mb-0" style="font-size: 1.1rem;">
+                        {{ lop.Khoahoc.name }}
+                    </h5>
+                </div>
+
+                <div class="card-body">
+                    <p class="card-text">
+                        <strong>Mã lớp:</strong> <span class="badge bg-secondary">{{ lop.id }}</span><br>
+                        <strong>Lịch học:</strong> {{ lop.lichHoc }}<br>
+                        <strong>Thời gian:</strong> {{ lop.ngayBD }} - {{ lop.ngayKT }}<br>
+                        <strong>Sĩ số:</strong> {{ lop.soHVToiDa }} học viên
+                    </p>
+                </div>
+
+                <div class="card-footer bg-white text-center border-top-0">
+                    <a href="{{ url_for('nhap_diem', lophoc_id=lop.id) }}" class="btn btn-outline-primary w-100">
+                        &#9999; Nhập điểm & Quản lý
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-warning text-center">
+                <h4>Chưa có dữ liệu!</h4>
+                <p>Hiện tại bạn chưa được phân công giảng dạy lớp nào.</p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -345,6 +345,39 @@ def get_nam_co_du_lieu():
 
     return [year.nam for year in years]
 
+def get_lophoc_by_id(lophoc_id):
+    return Lophoc.query.get(lophoc_id)
+
+def get_classes_by_teacher(teacher_id):
+    return Lophoc.query.filter_by(giaoVien_id=teacher_id).all()
+
+def get_hocvien_in_lophoc(lophoc_id):
+    return PhieuDangKy.query.filter(
+        PhieuDangKy.lophoc_id == lophoc_id,
+        PhieuDangKy.trangThai == 'Đã xác nhận'  # Chỉ hiện học viên đã đóng tiền
+    ).all()
+
+
+def luu_ket_qua_hoc_tap(phieu_id, diem_gk, diem_ck):
+    try:
+        ket_qua = KetQuaHocTap.query.filter_by(phieudangky_id=phieu_id).first()
+        if not ket_qua:
+            ket_qua = KetQuaHocTap(phieudangky_id=phieu_id)
+            db.session.add(ket_qua)
+        ket_qua.diemGiuaKy = float(diem_gk)
+        ket_qua.diemCuoiKy = float(diem_ck)
+
+        if hasattr(ket_qua, 'tinh_diem_tong_ket'):
+            ket_qua.tinh_diem_tong_ket()
+        else:
+            ket_qua.diemTongKet = round((ket_qua.diemGiuaKy * 0.4) + (ket_qua.diemCuoiKy * 0.6), 2)
+        db.session.commit()
+        return True, "Lưu thành công"
+
+    except Exception as e:
+        db.session.rollback()
+        print(e)
+        return False, f"Lỗi: {str(e)}"
 if __name__ == '__main__':
     with app.app_context():
         print(count_khoahoc_by_capdo())
