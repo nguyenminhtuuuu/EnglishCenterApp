@@ -154,7 +154,7 @@ def hoadon_cua_toi():
         return redirect('/')
 
     hoadons = dao.get_hoadon_by_user(current_user.id)
-    return render_template("hoadon-user.html", hoadons=hoadons)
+    return render_template("hoa-don-cua-toi.html", hoadons=hoadons)
 
 
 @app.route("/hoadon/<int:hoadon_id>/thanh-toan", methods=["POST"])
@@ -195,7 +195,7 @@ def quan_ly_hoadon():
 
     tong_doanh_thu = sum(h.tongTien for h in hoadons if h.trangThai == 'Đã thanh toán')
 
-    return render_template("quan-ly-hoadon.html",
+    return render_template("admin/quan-ly-hoa-don.html",
                            hoadons=hoadons,
                            tong_doanh_thu=tong_doanh_thu,
                            trangThai=trangThai,
@@ -248,7 +248,7 @@ def thong_ke_bao_cao():
     # Danh sách năm có dữ liệu
     nam_co_du_lieu = dao.get_nam_co_du_lieu()
 
-    return render_template("thong-ke-bao-cao.html",
+    return render_template("admin/thong-ke-bao-cao.html",
                            so_luong_hv=so_luong_hv,
                            ty_le_dat=ty_le_dat,
                            doanh_thu_thang=doanh_thu_thang,

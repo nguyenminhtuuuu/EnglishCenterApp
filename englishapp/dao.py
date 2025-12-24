@@ -244,14 +244,20 @@ def thong_ke_ty_le_dat_theo_khoa():
     results = db.session.query(
         Khoahoc.name.label('ten_khoa_hoc'),
         func.count(KetQuaHocTap.id).label('tong_so'),
-        func.count(case([(KetQuaHocTap.diemTongKet >= 5, 1)])).label('so_dat'),
+        func.count(
+            case(
+                (KetQuaHocTap.diemTongKet >= 5, 1),
+                else_=None
+            )
+        ).label('so_dat'),
+
         func.avg(KetQuaHocTap.diemTongKet).label('diem_trung_binh')
-    ).join(Lophoc, Khoahoc.id == Lophoc.maKH) \
-        .join(PhieuDangKy, Lophoc.id == PhieuDangKy.lophoc_id) \
-        .join(KetQuaHocTap, PhieuDangKy.id == KetQuaHocTap.phieudangky_id) \
-        .filter(KetQuaHocTap.trangThai == 'Hoàn thành') \
-        .group_by(Khoahoc.id) \
-        .all()
+        ).join(Lophoc, Khoahoc.id == Lophoc.maKH) \
+            .join(PhieuDangKy, Lophoc.id == PhieuDangKy.lophoc_id) \
+            .join(KetQuaHocTap, PhieuDangKy.id == KetQuaHocTap.phieudangky_id) \
+            .filter(KetQuaHocTap.trangThai == 'Hoàn thành') \
+            .group_by(Khoahoc.id) \
+            .all()
 
     # Tính tỷ lệ đạt
     for result in results:
