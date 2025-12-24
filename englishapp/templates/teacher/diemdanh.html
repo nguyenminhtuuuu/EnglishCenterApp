@@ -1,0 +1,71 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Điểm danh ngày {{ today.strftime('%d/%m') }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="text-success">
+            <i class="fa fa-calendar-check"></i> Điểm Danh Lớp Học
+        </h3>
+        <div class="badge bg-warning text-dark fs-6">
+            Ngày: {{ today.strftime('%d/%m/%Y') }}
+        </div>
+    </div>
+
+    <div class="card shadow border-success">
+        <div class="card-header bg-success text-white">
+            <span>Lớp: <strong>{{ lop.Khoahoc.name }}</strong> ({{ lop.lichHoc }})</span>
+        </div>
+
+        <div class="card-body p-0">
+            <form method="POST">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50px;">STT</th>
+                            <th>Họ và Tên</th>
+                            <th class="text-center" style="width: 200px;">Trạng thái</th>
+                            <th>Ghi chú (Lý do vắng)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for phieu in ds_hocvien %}
+                        <tr>
+                            <td class="text-center">{{ loop.index }}</td>
+                            <td class="fw-bold">{{ phieu.hocvien.name }}</td>
+
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <input type="radio" class="btn-check"
+                                           name="tt_{{ phieu.id }}" id="co_{{ phieu.id }}"
+                                           value="1" checked>
+                                    <label class="btn btn-outline-success btn-sm" for="co_{{ phieu.id }}">Có</label>
+
+                                    <input type="radio" class="btn-check"
+                                           name="tt_{{ phieu.id }}" id="vang_{{ phieu.id }}"
+                                           value="0">
+                                    <label class="btn btn-outline-danger btn-sm" for="vang_{{ phieu.id }}">Vắng</label>
+                                </div>
+                            </td>
+
+                            <td>
+                                <input type="text" class="form-control form-control-sm"
+                                       name="gc_{{ phieu.id }}" placeholder="Nhập lý do...">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div class="card-footer bg-white text-end pt-3">
+                    <a href="/teacher" class="btn btn-secondary me-2">Hủy bỏ</a>
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="fa fa-check"></i> Xác nhận Điểm Danh
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

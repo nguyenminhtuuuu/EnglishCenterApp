@@ -1,0 +1,94 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Nhập điểm - {{ lop.Khoahoc.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="text-primary">
+            <i class="fa fa-edit"></i> Sổ Điểm: {{ lop.Khoahoc.name }}
+        </h3>
+        <a href="/teacher" class="btn btn-outline-secondary btn-sm">
+            <i class="fa fa-arrow-left"></i> Quay lại
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-primary">
+        <div class="card-header bg-primary text-white">
+            <span>Mã lớp: <strong>{{ lop.id }}</strong> | Sĩ số: <strong>{{ ds_hocvien|length }}</strong></span>
+        </div>
+        
+        <div class="card-body p-0">
+            <form method="POST">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered mb-0 align-middle">
+                        <thead class="table-light text-center">
+                            <tr>
+                                <th style="width: 50px;">ID</th>
+                                <th>Họ tên học viên</th>
+                                <th style="width: 150px;">Điểm Giữa Kỳ</th>
+                                <th style="width: 150px;">Điểm Cuối Kỳ</th>
+                                <th style="width: 100px;">Tổng kết</th>
+                                <th style="width: 100px;">Xếp loại</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if ds_hocvien %}
+                                {% for phieu in ds_hocvien %}
+                                <tr>
+                                    <td class="text-center">{{ phieu.hocvien.id }}</td>
+                                    <td class="fw-bold">{{ phieu.hocvien.name }}</td>
+                                    
+                                    <td>
+                                        <input type="number" step="0.1" min="0" max="10" 
+                                               class="form-control text-center" 
+                                               name="gk_{{ phieu.id }}"
+                                               value="{{ phieu.ketquahoctap.diemGiuaKy if phieu.ketquahoctap else 0 }}"
+                                               placeholder="0.0">
+                                    </td>
+                                    
+                                    <td>
+                                        <input type="number" step="0.1" min="0" max="10" 
+                                               class="form-control text-center" 
+                                               name="ck_{{ phieu.id }}"
+                                               value="{{ phieu.ketquahoctap.diemCuoiKy if phieu.ketquahoctap else 0 }}"
+                                               placeholder="0.0">
+                                    </td>
+
+                                    <td class="text-center fw-bold text-primary">
+                                        {{ phieu.ketquahoctap.diemTongKet if phieu.ketquahoctap else '-' }}
+                                    </td>
+                                    <td class="text-center">
+                                        {% if phieu.ketquahoctap %}
+                                            {% if phieu.ketquahoctap.xepLoai == 'Giỏi' %}
+                                                <span class="badge bg-success">Giỏi</span>
+                                            {% elif phieu.ketquahoctap.xepLoai == 'Khá' %}
+                                                <span class="badge bg-info">Khá</span>
+                                            {% elif phieu.ketquahoctap.xepLoai == 'Yếu' %}
+                                                <span class="badge bg-danger">Yếu</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">{{ phieu.ketquahoctap.xepLoai }}</span>
+                                            {% endif %}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr><td colspan="6" class="text-center">Lớp chưa có học viên.</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-footer bg-white text-end">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="fa fa-save"></i> Lưu Bảng Điểm
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Chi tiết lớp học{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow mb-4 border-info">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="fa fa-info-circle"></i> Thông Tin Lớp Học</h4>
+            <span class="badge bg-light text-dark">Mã lớp: {{ lop.id }}</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="text-primary">{{ lop.Khoahoc.name }}</h5>
+                    <ul class="list-unstyled mt-3">
+                        <li class="mb-2"><strong><i class="fa fa-calendar"></i> Lịch học:</strong> {{ lop.lichHoc }}</li>
+                        <li><strong><i class="fa fa-user-tie"></i> Giảng viên:</strong> {{ current_user.name }}</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 border-start">
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><strong>Ngày bắt đầu:</strong> {{ lop.ngayBD }}</li>
+                        <li class="mb-2"><strong>Ngày kết thúc:</strong> {{ lop.ngayKT }}</li>
+                        <li><strong>Sĩ số tối đa:</strong> {{ lop.soHVToiDa }} học viên</li>
+                    </ul>
+                    <div class="mt-3">
+                        <div class="progress" style="height: 25px;">
+                            {% set si_so = ds_hocvien|length %}
+                            {% set phan_tram = (si_so / lop.soHVToiDa) * 100 %}
+                            <div class="progress-bar bg-success" role="progressbar"
+                                 style="width: {{ phan_tram }}%;">
+                                {{ si_so }}/{{ lop.soHVToiDa }} Học viên
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="mb-0 text-dark">Danh sách học viên</h5>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>Mã HV</th>
+                        <th>Họ và Tên</th>
+                        <th>Email</th>
+                        <th>Ngày đăng ký</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if ds_hocvien %}
+                        {% for phieu in ds_hocvien %}
+                        <tr>
+                            <td>{{ phieu.hocvien.id }}</td>
+                            <td>
+                                <img src="{{ phieu.hocvien.avatar }}" class="rounded-circle me-2" width="30" height="30">
+                                {{ phieu.hocvien.name }}
+                            </td>
+                            <td>{{ phieu.hocvien.email }}</td>
+                            <td>{{ phieu.ngayDK }}</td>
+                            <td>
+                                <span class="badge bg-success">{{ phieu.trangThai }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td colspan="5" class="text-center text-muted">Chưa có dữ liệu</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer text-center bg-white">
+            <a href="/teacher" class="btn btn-outline-primary">
+                <i class="fa fa-home"></i> Quay về Trang chủ Giáo viên
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
